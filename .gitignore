@@ -1,0 +1,6 @@
+*.swp
+.idea
+node_modules
+token
+config.json
+config.js

@@ -1,0 +1,32 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/user/netcon",
+    "header": {
+      "host": "localhost:3000",
+      "connection": "keep-alive",
+      "cache-control": "no-cache",
+      "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36",
+      "postman-token": "a6174eb7-a3d4-1714-4e5a-d2a711cf9aa6",
+      "accept": "*/*",
+      "accept-encoding": "gzip, deflate, sdch, br",
+      "accept-language": "zh-CN,zh;q=0.8,en;q=0.6"
+    }
+  },
+  "response": {
+    "status": 200,
+    "message": "OK",
+    "header": {
+      "content-type": "application/json; charset=utf-8"
+    }
+  },
+  "app": {
+    "subdomainOffset": 2,
+    "proxy": false,
+    "env": "development"
+  },
+  "originalUrl": "/api/user/netcon",
+  "req": "",
+  "res": "",
+  "socket": ""
+}
