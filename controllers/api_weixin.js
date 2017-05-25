@@ -3,6 +3,7 @@ const tool = require('../tool')
 const model = require('../model')
 const config = require('../config')
 const fs = require('fs')
+const crypto = require('crypto');
 
 let authorize = async (ctx, next) => {
   // ctx.redirect(config.app.code_url + ctx.query.go)
@@ -82,7 +83,31 @@ let get_access_token = async () => {
   return token.access_token
 }
 
+let get_jsapi_config = async (ctx, next) => {
+  let access_token = await get_access_token()
+  let ticket_json = await tool.get(config.weixin.get_ticket_url(access_token))
+  if(ticket_json.errcode) {
+    ctx.rest({ errcode: ticket_json.errcode, errmsg: ticket_json.errmsg })
+  } else {
+    let conf = {
+      debug: true,
+      appId: config.weixin.appid,
+      timestamp: Date.now(),
+      nonceStr: 'XcM.AiMoMa.CoM',
+      jsApiList: ['chooseWXPay']
+    }
+    let str = 'jsapi_ticket=' + ticket_json.ticket + '&noncestr='
+              + conf.nonceStr + '&timestamp=' + conf.timestamp + '&url=' + ctx.request.body.url
+
+    let sha1 = crypto.createHash('sha1');
+    sha1.update(str);
+    conf.signature = sha1.digest('hex');
+    ctx.rest(conf);
+  }
+}
+
 module.exports = {
   'GET /api/authorize': authorize,
-  'GET /api/authorize/:go': set_ssid
+  'GET /api/authorize/:go': set_ssid,
+  'POST /api/jsapi_config': get_jsapi_config
 }

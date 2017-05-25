@@ -25,7 +25,7 @@ let update_user = async (ctx, next) => {
   if(data.sex) info.sex = data.sex
   if(data.name) info.name = data.name
   await ctx.user.update(info)
-  ctx.rest({ errcode: null })
+  ctx.rest({ errcode: null, errmsg: '修改成功！' })
 }
 
 module.exports = {

@@ -14,7 +14,7 @@ let add_course = async (ctx, next) => {
       start: data.start,
       end: data.end
     }
-    let course = await model.Course.find({where: where})
+    let course = await model.Course.find({ where: where })
     if (course) {
       ctx.rest({
         errcode: 1,
@@ -47,7 +47,6 @@ let get_courses = async (ctx, next) => {
 
   let courses = await model.Course.findAll({ where: where })
 
-  console.log(courses)
   let res = []
   courses.forEach(course => {
     res.push({

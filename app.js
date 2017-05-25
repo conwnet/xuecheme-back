@@ -1,8 +1,11 @@
 const Koa = require('koa');
+const cors = require('koa-cors')
 const bodyParser = require('koa-bodyparser');
 const controller = require('./middlewares/controller');
 const rest = require('./middlewares/rest');
 const authorize = require('./middlewares/authorize')
+
+
 const app = new Koa();
 
 // log request URL:
@@ -10,6 +13,8 @@ app.use(async (ctx, next) => {
   console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
   await next();
 });
+
+app.use(cors())
 
 // bind .rest() for ctx:
 app.use(rest.restify());
