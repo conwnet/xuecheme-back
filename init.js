@@ -1,8 +1,9 @@
 const model = require('./model');
 
-// /**
+
 model.User.sync({force: true})
 
+/**
 model.Student.sync({ force: true }).then(() => {
   model.Student.create({
     user_id: 1,
@@ -111,18 +112,12 @@ model.CoachLabel.sync({force: true}).then(() => {
 
 model.Order.sync({force: true});
 
-model.Plan.sync({force: true}).then(() => {
-
-})
+model.Plan.sync({force: true});
 
 
 model.Plan.sync({force: true})
 
-model.Course.sync({force: true}).then(() => {
-  model.Course.create({
-
-  })
-});
+model.Course.sync({force: true});
 
 
 model.Follow.sync({force: true});

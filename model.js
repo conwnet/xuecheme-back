@@ -96,6 +96,7 @@ let Order = sequelize.define('order', {
 
 let Plan = sequelize.define('plan', {
   coach_id: Sequelize.INTEGER, //
+  type: { type: Sequelize.INTEGER, defaultValue: 2 },
   year: Sequelize.INTEGER, //
   month: Sequelize.INTEGER, //
   date: Sequelize.INTEGER, //

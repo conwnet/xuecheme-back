@@ -21,8 +21,8 @@ module.exports = {
           ctx.response.type = 'application/json';
 
           ctx.response.body = {
-            code: e.code || 'internal:unknown_error',
-            message: e.message || ''
+            errcode: e.code || 'internal:unknown_error',
+            errmsg: '系统错误！' || e.message || ''
           };
         }
       } else {

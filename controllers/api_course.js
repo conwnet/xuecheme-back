@@ -18,18 +18,19 @@ let add_course = async (ctx, next) => {
     if (course) {
       ctx.rest({
         errcode: 1,
-        errmsg: '已经存在'
+        errmsg: '好可惜，您手慢了，这节课已经被抢了～'
       })
     } else {
       await model.Course.create(data)
       ctx.rest({
-        errcode: 0
+        errcode: 0,
+        errmsg: '预约成功！'
       })
     }
   } else {
     ctx.rest({
       errcode: 1,
-      errmsg: '您还未报考驾校'
+      errmsg: '您还未报考驾校呦～'
     })
   }
 };

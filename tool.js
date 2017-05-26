@@ -1,10 +1,11 @@
 
 const crypto = require('crypto');
 const https = require('https');
+const request = require('request')
 const TopClient = require( './alidayu/topClient' ).TopClient;
 const config = require('./config')
 
-let hash = function (password) {
+let hash = password => {
 
   let __SALT = 'CoNw.NeT';
   let sha256 = crypto.createHash('sha256');
@@ -23,6 +24,45 @@ let get = url => {
   });
 }
 
+let post = (url, data) => {
+  return new Promise(resolve => {
+    const request = require('request')
+    let form = data
+    request.post({ url:url, form:form }, (err,res,body) => {
+      if(err) console.log(err)
+      resolve(body)
+    })
+  });
+}
+
+let sha1 = str => {
+  let sha1 = crypto.createHash('sha1');
+  sha1.update(str);
+  return sha1.digest('hex');
+}
+
+let md5 = str => {
+  let md5 = crypto.createHash('md5');
+  md5.update(str);
+  return md5.digest('hex')
+}
+
+let build_xml = obj => {
+  let xml = '<xml>\n'
+  for(let key in obj) {
+    xml += '<' + key + '>' + obj[key] + '</' + key + '>\n';
+  }
+  xml += '</xml>'
+  return xml
+}
+
+let build_qury = (data) => {
+  let querys = []
+  for(let key in data) {
+    querys.push(key + '=' + data[key])
+  }
+  return querys.sort().join('&')
+}
 
 let send_code = (phone, code) => {
   var client = new TopClient(config.alidayu);
@@ -40,8 +80,19 @@ let send_code = (phone, code) => {
   });
 }
 
+let nonceStr = () => {
+  let str = sha1('' + Math.random())
+  return str.slice(str.length - 20)
+}
+
 module.exports = {
   hash,
   get,
-  send_code
+  post,
+  md5,
+  sha1,
+  send_code,
+  build_qury,
+  build_xml,
+  nonceStr
 }
