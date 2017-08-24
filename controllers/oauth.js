@@ -6,12 +6,8 @@ let client = new OAuth(config.weixin.appid, config.weixin.secret);
 
 let getOauthUrl = async ctx => {
   let url = client.getAuthorizeURL(config.url + 'authorize', 'MoMaKeJi', 'snsapi_userinfo')
-  ctx.body = `
-    <a href="${ url }">${ url }</a>
-  `;
-  return ;
   ctx.rest({
-    url: '123'
+    url: url
   });
 }
 
@@ -41,6 +37,6 @@ let authorize = async ctx => {
 }
 
 module.exports = {
-  'GET /api': getOauthUrl,
+  'GET /api/oauthurl': getOauthUrl,
   'GET /api/authorize': authorize
 };
