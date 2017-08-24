@@ -1,5 +1,6 @@
 
 const fs = require('fs');
+const path = require('path')
 
 // add url-route in /controllers:
 
@@ -28,17 +29,17 @@ function addMapping(router, mapping) {
 }
 
 function addControllers(router, dir) {
-  fs.readdirSync(__dirname + '/' + dir).filter((f) => f.endsWith('.js')).forEach((f) => {
+  
+  fs.readdirSync(dir).filter((f) => f.endsWith('.js')).forEach((f) => {
     console.log(`process controller: ${f}...`);
-    let mapping = require(__dirname + '/' + dir + '/' + f);
+    let mapping = require(path.resolve(dir, f));
     addMapping(router, mapping);
   });
 }
 
 module.exports = function (dir) {
-  let
-    controllers_dir = dir || '../controllers',
-    router = require('koa-router')();
+  let controllers_dir = dir || path.resolve(__dirname, '../controllers');
+  let router = require('koa-router')();
   addControllers(router, controllers_dir);
   return router.routes();
 };

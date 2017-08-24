@@ -4,7 +4,7 @@ module.exports = {
     this.message = message || '';
   },
   restify: (pathPrefix) => {
-    pathPrefix = pathPrefix || '/api/';
+    pathPrefix = pathPrefix || '/';
     return async (ctx, next) => {
       if (ctx.request.path.startsWith(pathPrefix)) {
         // console.log(`Process API ${ctx.request.method} ${ctx.request.url}...`);
