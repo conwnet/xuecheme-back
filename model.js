@@ -14,32 +14,29 @@ var sequelize = new Sequelize(config.database.dbname, config.database.username, 
 
 // 用户列表
 let User = sequelize.define('user', {
+/*
   username: { type: Sequelize.STRING(255), defaultValue: '' }, // 用户名，用作登录，通常应该绑定手机号
   password: { type: Sequelize.STRING(255), defaultValue: '' }, // 密码，用来在 App 端登录
+*/
 
   openid: { type: Sequelize.STRING(255), defaultValue: '' }, // 微信获取的 open_id，用来在微信端识别每个用户
-  email: { type: Sequelize.STRING(255), defaultValue: '' }, // 电子邮件
-  name: { type: Sequelize.STRING(255), defaultValue: '' }, // 用户姓名
+  nickname: { type: Sequelize.STRING(255), defaultValue: '' }, // 用户姓名  
   age: { type: Sequelize.INTEGER, defaultValue: 0 }, // 用户年龄
   sex: { type: Sequelize.INTEGER, defaultValue: 0 }, // 用户性别
-  country: { type: Sequelize.STRING(255), defaultValue: '' }, // 用户国家
-  province: { type: Sequelize.STRING(255), defaultValue: '' }, // 用户国家
   city: { type: Sequelize.STRING(255), defaultValue: '' }, // 用户国家
+  province: { type: Sequelize.STRING(255), defaultValue: '' }, // 用户国家
+  country: { type: Sequelize.STRING(255), defaultValue: '' }, // 用户国家
   headimgurl: { type: Sequelize.STRING(255), defaultValue: '' }, // 用户头像 url
-  id_card: { type: Sequelize.STRING(255), defaultValue: '' }, // 用户身份证号
 
   access_token: { type: Sequelize.STRING(255), defaultValue: '' }, // 微信 ACCESS_TOKEN
   access_time: { type: Sequelize.BIGINT, defaultValue: 0 }, // ACCESS_TOKEN 创建时间
 
   ssid: { type: Sequelize.STRING(255), defaultValue: '' }, // 系统登录验证 token
-  time_out: { type: Sequelize.BIGINT, defaultValue: 0 }, // token 创建时间
+  timeout: { type: Sequelize.BIGINT, defaultValue: 0 }, // token 创建时间
 
   verify_phone: { type: Sequelize.STRING(255), defaultValue: '' }, // 临时手机号
   verify_code: { type: Sequelize.STRING(255), defaultValue: '' }, // 验证码
   verify_time_out: { type: Sequelize.BIGINT, defaultValue: 0 }, // 验证码失效时间
-
-  remark: { type: Sequelize.STRING(1023), defaultValue: '' }, // 备注
-  login_time: { type: Sequelize.BIGINT, defaultValue: 0 }, // 上次登录时间
 });
 
 let Student = sequelize.define('student', {

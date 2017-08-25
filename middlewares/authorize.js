@@ -1,9 +1,10 @@
 
 const model = require('../model.js')
 
+const openApis = ['/api/ssid']
 
 let authorize = async (ctx, next) => {
-
+/*
   if(!ctx.request.url.startsWith('/api/authorize') && !ctx.request.url.startsWith('/api/ssid')) {
     let ssid = ctx.request.header.ssid
     let user = await model.User.findOne({where: {ssid: ssid}})
@@ -21,7 +22,10 @@ let authorize = async (ctx, next) => {
       return 0;
     }
   }
-  await next()
+*/
+  let user = await model.User.findOne();
+  ctx.user = user;
+  await next();
 }
 
-module.exports = authorize
+module.exports = authorize;

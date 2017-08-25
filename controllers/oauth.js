@@ -5,7 +5,8 @@ const path = require('path')
 let client = new OAuth(config.weixin.appid, config.weixin.secret);    
 
 let getOauthUrl = async ctx => {
-  let url = client.getAuthorizeURL(config.url + 'authorize', 'MoMaKeJi', 'snsapi_userinfo')
+  //let url = client.getAuthorizeURL(ctx.query.ctx, 'MoMaKeJi', 'snsapi_userinfo')
+  let url = client.getAuthorizeURL('http://xcm.aimoma.com/api/authorize', 'MoMaKeJi', 'snsapi_userinfo')  
   ctx.rest({
     url: url
   });

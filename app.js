@@ -19,7 +19,7 @@ app.use(cors())
 app.use(rest.restify());
 
 // use wechat authorize
-// app.use(authorize)
+app.use(authorize)
 
 // parse request body:
 app.use(bodyParser());

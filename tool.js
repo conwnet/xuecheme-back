@@ -68,16 +68,16 @@ let send_code = (phone, code) => {
   var client = new TopClient(config.alidayu);
 
   client.execute( 'alibaba.aliqin.fc.sms.num.send' , {
-    'extend' : '' ,
-    'sms_type' : 'normal' ,
-    'sms_free_sign_name' : '身份验证' ,
-    'sms_param' : "{code:'" + code + "',product:'学车么'}" ,
-    'rec_num' : phone ,
+    'extend' : '',
+    'sms_type' : 'normal',
+    'sms_free_sign_name' : '身份验证',
+    'sms_param' : JSON.stringify({code: code, product:'学车么'}),
+    'rec_num' : '' + phone,
     'sms_template_code' : "SMS_62860286"
-  }, function(error, response) {
+}, function(error, response) {
     if (!error) console.log(response);
     else console.log(error);
-  });
+});
 }
 
 let nonceStr = () => {

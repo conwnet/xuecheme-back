@@ -1,7 +1,15 @@
 const model = require('./model');
 
 
-model.User.sync({force: true})
+model.User.sync({force: true}).then(() => {
+  model.User.create({
+    openid: 'o8rEnwPLHZzg5Ig-Y_3SDDhSUFT8',
+    nickname: '凌乱',
+    ssid: 'ssid',
+    timeout: Date.now() + 7200 * 1000
+  })
+})
+
 
 /**
 model.Student.sync({ force: true }).then(() => {
@@ -23,7 +31,7 @@ model.Coach.sync({ force: true }).then(() => {
 
 // */
 
-
+/*
 model.School.sync({force: true}).then(() => {
   model.School.create({
     name: '银河驾校',
@@ -124,3 +132,4 @@ model.Follow.sync({force: true});
 
 
 model.Info.sync({force: true});
+*/
