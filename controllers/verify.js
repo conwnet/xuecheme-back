@@ -12,7 +12,7 @@ let getVerifyCode = async ctx => {
   }
   let code = '000000' + parseInt(Math.random() * 1000000)
   code = code.slice(code.length - 6)
-  tool.send_code(mobile, code)
+  tool.sendCode(mobile, code)
   await ctx.user.update({
     verify_phone: mobile,
     verify_code: code,

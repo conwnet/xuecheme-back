@@ -1,7 +1,7 @@
-
+const fs = require('fs');
 const crypto = require('crypto');
-const https = require('https');
 const request = require('request')
+const https = require('https')
 const TopClient = require( './alidayu/topClient' ).TopClient;
 const config = require('./config')
 
@@ -47,24 +47,7 @@ let md5 = str => {
   return md5.digest('hex')
 }
 
-let build_xml = obj => {
-  let xml = '<xml>\n'
-  for(let key in obj) {
-    xml += '<' + key + '>' + obj[key] + '</' + key + '>\n';
-  }
-  xml += '</xml>'
-  return xml
-}
-
-let build_qury = (data) => {
-  let querys = []
-  for(let key in data) {
-    querys.push(key + '=' + data[key])
-  }
-  return querys.sort().join('&')
-}
-
-let send_code = (phone, code) => {
+let sendCode = (phone, code) => {
   var client = new TopClient(config.alidayu);
 
   client.execute( 'alibaba.aliqin.fc.sms.num.send' , {
@@ -81,39 +64,61 @@ let send_code = (phone, code) => {
 }
 
 let nonceStr = () => {
-  let str = sha1('' + Math.random())
-  return str.slice(str.length - 20)
+  let str = sha1('' + Math.random());
+  return str.slice(str.length - 20);
 }
 
-let wechatPay = (trade_no, body, fee, ip, openid) => {
-  let Payment = require('wechat-pay').Payment;
-  let initConfig = {
-    partnerKey: "<partnerkey>",
-    appId: "<appid>",
-    mchId: "<mchid>",
-    notifyUrl: "<notifyurl>",
-    // pfx: fs.readFileSync("<location-of-your-apiclient-cert.p12>")
-  };
-  let payment = new Payment(initConfig);
-  let order = {
-    body: body,
-    attach: 'netcon',
-    out_trade_no: trade_no,
-    total_fee: fee,
-    spbill_create_ip: req.ip,
-    openid: openid,
-    trade_type: 'JSAPI'
-  };
+let getAccessToken = () => {
+  return new Promise(resolve => {
+    let token = fs.existsSync('./token') && fs.readFileSync('./token');
+    let access = token ? JSON.parse(token) : false;
+    if(access && access.timeout - 600 * 1000 > Date.now()) {
+      resolve(access.token);
+    } else {
+      https.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${config.weixin.appid}&secret=${config.weixin.secret}`, response => {
+        response.setEncoding('utf8');
+        response.on('data', chunk => {
+          let data = JSON.parse(chunk);
+          fs.writeFileSync('./token', JSON.stringify({
+            token: data.access_token,
+            timeout: parseInt(data.expires_in) * 1000 + Date.now()
+          }))
+          resolve(data.access_token)
+        });
+      });
+    }
+  })
+}
+
+let getJsApiTicket = token => {
+  return new Promise(resolve => {
+    let ticket = fs.existsSync('./ticket') && fs.readFileSync('./ticket');
+    let jsapi = ticket ? JSON.parse(ticket) : false;
+    if(jsapi && jsapi.timeout - 60 * 1000 > Date.now()) {
+      resolve(jsapi.ticket);
+    } else {
+      https.get(`https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${token}&type=jsapi`, response => {
+        response.setEncoding('utf8');
+        response.on('data', chunk => {
+          let data = JSON.parse(chunk);
+          fs.writeFileSync('./ticket', JSON.stringify({
+            ticket: data.ticket,
+            timeout: parseInt(data.expires_in) * 1000 + Date.now()
+          }))
+          resolve(data.ticket)
+        });
+      });
+    }
+  })
 }
 
 module.exports = {
   hash,
   get,
   post,
-  md5,
   sha1,
-  send_code,
-  build_qury,
-  build_xml,
-  nonceStr
+  sendCode,
+  nonceStr,
+  getAccessToken,
+  getJsApiTicket
 }

@@ -72,6 +72,6 @@ let authorize = async ctx => {
 }
 
 module.exports = {
-  'GET /api/oauthurl': getOauthUrl,
-  'GET /api/authorize': authorize
+  'GET /oauthUrl': getOauthUrl,
+  'GET /authorize': authorize
 };
