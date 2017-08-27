@@ -8,8 +8,7 @@ let client = new OAuth(config.weixin.appid, config.weixin.secret);
 
 let getOauthUrl = async ctx => {
   //let url = client.getAuthorizeURL(ctx.query.ctx, 'MoMaKeJi', 'snsapi_userinfo')
-  let reqUrl = 'http://' + ctx.host + ctx.url;
-  let url = client.getAuthorizeURL(reqUrl, 'MoMaKeJi', 'snsapi_userinfo')  
+  let url = client.getAuthorizeURL(ctx.query.url, 'MoMaKeJi', 'snsapi_userinfo')  
   ctx.rest({ url: url});
 }
 
@@ -37,8 +36,8 @@ let authorize = async ctx => {
   let code = ctx.query.code;
   try {
     let {openid, accessToken} = await getAccessToken(code);  
-    let user = model.User.findOne({ openid: openid });
-    let ssid = sha256('MoMaKeJi' + Data.now() + Math.random());
+    let user = await model.User.findOne({ openid: openid });
+    let ssid = sha256('MoMaKeJi' + Date.now() + Math.random());
     let timeout = Date.now() + 7200 * 1000;
     if(user) {
       await user.update({
