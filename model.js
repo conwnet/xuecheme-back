@@ -14,10 +14,8 @@ var sequelize = new Sequelize(config.database.dbname, config.database.username, 
 
 // 用户列表
 let User = sequelize.define('user', {
-/*
-  username: { type: Sequelize.STRING(255), defaultValue: '' }, // 用户名，用作登录，通常应该绑定手机号
+  mobile: { type: Sequelize.STRING(255), defaultValue: '' }, // 手机号，用作登录，通常应该绑定手机号
   password: { type: Sequelize.STRING(255), defaultValue: '' }, // 密码，用来在 App 端登录
-*/
 
   openid: { type: Sequelize.STRING(255), defaultValue: '' }, // 微信获取的 open_id，用来在微信端识别每个用户
   nickname: { type: Sequelize.STRING(255), defaultValue: '' }, // 用户姓名  
@@ -36,8 +34,33 @@ let User = sequelize.define('user', {
 
   verify_phone: { type: Sequelize.STRING(255), defaultValue: '' }, // 临时手机号
   verify_code: { type: Sequelize.STRING(255), defaultValue: '' }, // 验证码
-  verify_time_out: { type: Sequelize.BIGINT, defaultValue: 0 }, // 验证码失效时间
+  verify_timeout: { type: Sequelize.BIGINT, defaultValue: 0 }, // 验证码失效时间
 });
+
+let Promo = sequelize.define('promo', {
+  code: Sequelize.STRING(255),
+  power: Sequelize.INTEGER,
+  times: Sequelize.INTEGER,
+  user_id: Sequelize.INTEGER
+});
+
+// 订单列表
+let Order = sequelize.define('order', {
+  user_id: Sequelize.INTEGER, // 用户 id
+  price: Sequelize.INTEGER, // 购买该套餐时所花费用
+  count: Sequelize.INTEGER, // 购买次数
+  package_id: Sequelize.INTEGER, // 套餐列表
+});
+
+let Comment = sequelize.define('comment', {
+  user_id: Sequelize.INTEGER,
+  nickname: Sequelize.STRING(255),
+  headimgurl: Sequelize.STRING(255),
+  reply: Sequelize.INTEGER,
+  time: Sequelize.BIGINT,
+  status: Sequelize.INTEGER,
+  content: Sequelize.STRING(1023)
+})
 
 let Student = sequelize.define('student', {
   user_id: { type: Sequelize.INTEGER }, // user_id
@@ -81,14 +104,6 @@ let Pack = sequelize.define('package', {
   count: { type: Sequelize.INTEGER, defaultValue: 0}, // 报名人数
   status: { type: Sequelize.INTEGER, defaultValue: 0 }, // 套餐状态
   remark: { type: Sequelize.STRING(1023), defaultValue: '' } // 套餐描述
-});
-
-// 订单列表
-let Order = sequelize.define('order', {
-  user_id: Sequelize.INTEGER, // 用户 id
-  price: Sequelize.INTEGER, // 购买该套餐时所花费用
-  count: Sequelize.INTEGER, // 购买次数
-  package_id: Sequelize.INTEGER, // 套餐列表
 });
 
 let Plan = sequelize.define('plan', {
@@ -151,16 +166,7 @@ let CoachLabel = sequelize.define('coach_label', {
 
 module.exports = {
   User: User,
-  Student: Student,
-  Coach: Coach,
-  School: School,
-  Plan: Plan,
-  Course: Course,
-  Pack: Pack,
+  Promo: Promo,
   Order: Order,
-  Follow: Follow,
-  Info: Info,
-  Label: Label,
-  SchoolLabel: SchoolLabel,
-  CoachLabel: CoachLabel
+  Comment: Comment
 };

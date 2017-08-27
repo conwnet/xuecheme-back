@@ -11,7 +11,7 @@
   "description": "",
   "dependencies": {
     "kcors": "^2.2.1",
-    "koa": "^2.2.0",
+    "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.1.1",
     "mysql": "^2.13.0",
@@ -20,6 +20,8 @@
     "sequelize": "^3.30.4",
     "urllib": "^2.22.0",
     "wechat-api": "^1.32.1",
-    "wechat-oauth": "^1.2.1"
+    "wechat-oauth": "^1.2.1",
+    "wechat-pay": "^0.2.5",
+    "weixin-pay": "^1.1.7"
   }
 }

@@ -85,6 +85,27 @@ let nonceStr = () => {
   return str.slice(str.length - 20)
 }
 
+let wechatPay = (trade_no, body, fee, ip, openid) => {
+  let Payment = require('wechat-pay').Payment;
+  let initConfig = {
+    partnerKey: "<partnerkey>",
+    appId: "<appid>",
+    mchId: "<mchid>",
+    notifyUrl: "<notifyurl>",
+    // pfx: fs.readFileSync("<location-of-your-apiclient-cert.p12>")
+  };
+  let payment = new Payment(initConfig);
+  let order = {
+    body: body,
+    attach: 'netcon',
+    out_trade_no: trade_no,
+    total_fee: fee,
+    spbill_create_ip: req.ip,
+    openid: openid,
+    trade_type: 'JSAPI'
+  };
+}
+
 module.exports = {
   hash,
   get,

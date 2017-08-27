@@ -16,28 +16,11 @@ let getVerifyCode = async ctx => {
   await ctx.user.update({
     verify_phone: mobile,
     verify_code: code,
-    verify_time_out: Date.now() + 600 * 1000
+    verify_timeout: Date.now() + 600 * 1000
   })
   ctx.rest({ errcode: null, errmsg: '发送成功！' })
 }
 
-let checkVerifyCode = async ctx => {
-  let code = ctx.request.body.code;
-  let user = ctx.user;
-  if(user.verify_code == code && user.verify_time_out > Date.now()) {
-    ctx.rest({
-      errcode: null,
-      errmsg: '验证成功！'
-    })
-  } else {
-    ctx.rest({
-      errcode: 1,
-      errmsg: '验证码错误！'
-    })
-  }
-}
-
 module.exports = {
-  'GET /api/verify': getVerifyCode,
-  'POST /api/verify': checkVerifyCode
+  'GET /api/verify': getVerifyCode
 }

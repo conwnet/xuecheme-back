@@ -7,9 +7,20 @@ model.User.sync({force: true}).then(() => {
     nickname: '凌乱',
     ssid: 'ssid',
     timeout: Date.now() + 7200 * 1000
-  })
-})
+  });
+});
 
+model.Promo.sync({force: true}).then(() => {
+  model.Promo.create({
+    code: 'momakeji',
+    power: 8000,
+    times: 1,
+    user_id: 0
+  });
+});
+
+model.Order.sync({force: true})
+model.Comment.sync({force: true});
 
 /**
 model.Student.sync({ force: true }).then(() => {
