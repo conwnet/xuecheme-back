@@ -36,7 +36,7 @@ let authorize = async ctx => {
   let code = ctx.query.code;
   try {
     let {openid, accessToken} = await getAccessToken(code);  
-    let user = await model.User.findOne({ openid: openid });
+    let user = await model.User.findOne({ where: {openid: openid }});
     let ssid = sha256('MoMaKeJi' + Date.now() + Math.random());
     let timeout = Date.now() + 7200 * 1000;
     if(user) {
