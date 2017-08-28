@@ -16,7 +16,7 @@ let addOrder = async ctx => {
       pro = await model.Promo.findOne({where: {code: promo}})
       if(!pro) return ctx.rest({errcode: 3000, errmsg: '没有这张优惠券啊...'})
       else if(pro.times < 1) return ctx.rest({errcode: 3000, errmsg: '这张优惠券已经用过了...'})
-      else total_fee -= pro.power
+      else { total_fee -= pro.power; await pro.update({ times: pro.times - 1}) }
     }
     await ctx.user.update({ total_fee: total_fee, trade_no: 'MMKJ' + Date.now(), pack_id: packId })
     return ctx.rest({ errmsg: '发起订单中...' })

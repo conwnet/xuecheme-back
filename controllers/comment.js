@@ -32,7 +32,7 @@ let toDate = (time = 0) => {
 
 let getComments = async ctx => {
   let offset = ctx.query.offset || 0;
-  let comments = await model.Comment.findAll({offset: offset, limit: 10})
+  let comments = await model.Comment.findAll({offset: offset, limit: 10, order: ['time']})
   let ret = []
   comments.forEach(item => {
     ret.push({
