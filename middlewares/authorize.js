@@ -1,8 +1,6 @@
 
 const model = require('../model.js')
 
-const openApis = ['/api/ssid']
-
 let authorize = async (ctx, next) => {
   if(ctx.url.startsWith('/api')) {
     let ssid = ctx.header.ssid

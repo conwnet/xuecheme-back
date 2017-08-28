@@ -45,7 +45,7 @@ let authorize = async ctx => {
         timeout: timeout
       })
     } else {
-      let userInfo = await getUserInfo(openid);
+      let {userInfo} = await getUserInfo(openid).userInfo;
       await model.User.create({
         openid: userInfo.openid,
         nickname: userInfo.nickname,
@@ -60,7 +60,8 @@ let authorize = async ctx => {
       })
     }
     ctx.rest({
-      ssid: ssid
+      ssid: ssid,
+      timeout: timeout
     }); 
        
   } catch (e) {

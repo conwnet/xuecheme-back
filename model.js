@@ -35,6 +35,10 @@ let User = sequelize.define('user', {
   verify_phone: { type: Sequelize.STRING(255), defaultValue: '' }, // 临时手机号
   verify_code: { type: Sequelize.STRING(255), defaultValue: '' }, // 验证码
   verify_timeout: { type: Sequelize.BIGINT, defaultValue: 0 }, // 验证码失效时间
+
+  pack_id: Sequelize.INTEGER,
+  trade_no: { type: Sequelize.STRING(255), defaultValue: '' }, // 支付订单号
+  total_fee: { type: Sequelize.INTEGER, defaultValue: 999999 } // 支付金额
 });
 
 let Promo = sequelize.define('promo', {
@@ -47,9 +51,10 @@ let Promo = sequelize.define('promo', {
 // 订单列表
 let Order = sequelize.define('order', {
   user_id: Sequelize.INTEGER, // 用户 id
+  trade_no: Sequelize.STRING(255),
   price: Sequelize.INTEGER, // 购买该套餐时所花费用
-  count: Sequelize.INTEGER, // 购买次数
-  package_id: Sequelize.INTEGER, // 套餐列表
+  pack_id: Sequelize.INTEGER, // 套餐列表
+  time: Sequelize.BIGINT
 });
 
 let Comment = sequelize.define('comment', {

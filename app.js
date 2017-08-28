@@ -1,6 +1,7 @@
 const Koa = require('koa');
 const cors = require('kcors')
 const bodyParser = require('koa-bodyparser');
+const xmlParser = require('koa-xml-body')
 const controller = require('./middlewares/controller');
 const rest = require('./middlewares/rest');
 const authorize = require('./middlewares/authorize')
@@ -20,6 +21,9 @@ app.use(rest.restify());
 
 // use wechat authorize
 app.use(authorize)
+
+// parse xml request body
+app.use(xmlParser())
 
 // parse request body:
 app.use(bodyParser());
