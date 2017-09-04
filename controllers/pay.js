@@ -26,6 +26,12 @@ let wxPayNotify = async ctx => {
         pack_id: user.pack_id,
         time: Date.now()
       })
+      await model.Promo.create({
+        code: tool.md5(user.openid + Date.now()),
+        power: 10000,
+        times: 1,
+        user_id: user.id
+      });
       ctx.response.body = `<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>`;
     }
   }
